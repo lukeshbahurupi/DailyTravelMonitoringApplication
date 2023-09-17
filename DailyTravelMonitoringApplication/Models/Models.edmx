@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TravelingTeam_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DailyTravelMonitoring">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="TravelDate" Type="date" />
+          <Property Name="ScheduleRemark" Type="varchar" MaxLength="255" />
+          <Property Name="VehicleType" Type="varchar" MaxLength="20" />
+          <Property Name="VehicleNumber" Type="varchar" MaxLength="20" />
+          <Property Name="StartKmReading" Type="int" />
+          <Property Name="EndKmReading" Type="int" />
+          <Property Name="TotalKmTravelled" Type="int" />
+          <Property Name="RatePerKm" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TotalTravelCost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="MeetingExpenses" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="StayExpenses" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FoodExpenses" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DayFinalRemarks" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateOfJoining" Type="date" Nullable="false" />
+          <Property Name="UAN_No" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="ActiveFlag" Type="nvarchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FileDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Extension" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DMId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RollName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserRolesMapping">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MobileNo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UniqeId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__DailyTrav__Emplo__4BAC3F29">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="DailyTravelMonitoring" Type="Self.DailyTravelMonitoring" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="DailyTravelMonitoring">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FileDetail__DMId__4AB81AF0">
+          <End Role="DailyTravelMonitoring" Type="Self.DailyTravelMonitoring" Multiplicity="1" />
+          <End Role="FileDetail" Type="Self.FileDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DailyTravelMonitoring">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FileDetail">
+              <PropertyRef Name="DMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__RoleI__3C69FB99">
+          <End Role="RoleMaster" Type="Self.RoleMaster" Multiplicity="1" />
+          <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleMaster">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRolesMapping">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__UserI__3B75D760">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRolesMapping">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TravelingTeam_DBModelStoreContainer">
+          <EntitySet Name="DailyTravelMonitoring" EntityType="Self.DailyTravelMonitoring" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileDetail" EntityType="Self.FileDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRolesMapping" EntityType="Self.UserRolesMapping" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DailyTrav__Emplo__4BAC3F29" Association="Self.FK__DailyTrav__Emplo__4BAC3F29">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitoring" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FileDetail__DMId__4AB81AF0" Association="Self.FK__FileDetail__DMId__4AB81AF0">
+            <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitoring" />
+            <End Role="FileDetail" EntitySet="FileDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__RoleI__3C69FB99" Association="Self.FK__UserRoles__RoleI__3C69FB99">
+            <End Role="RoleMaster" EntitySet="RoleMaster" />
+            <End Role="UserRolesMapping" EntitySet="UserRolesMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__UserI__3B75D760" Association="Self.FK__UserRoles__UserI__3B75D760">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRolesMapping" EntitySet="UserRolesMapping" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TravelingTeam_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="RoleMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RollName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserRolesMappings" Relationship="Self.FK__UserRoles__RoleI__3C69FB99" FromRole="RoleMaster" ToRole="UserRolesMapping" />
+        </EntityType>
+        <EntityType Name="UserRolesMapping">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RoleMaster" Relationship="Self.FK__UserRoles__RoleI__3C69FB99" FromRole="UserRolesMapping" ToRole="RoleMaster" />
+          <NavigationProperty Name="User" Relationship="Self.FK__UserRoles__UserI__3B75D760" FromRole="UserRolesMapping" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UniqeId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserRolesMappings" Relationship="Self.FK__UserRoles__UserI__3B75D760" FromRole="Users" ToRole="UserRolesMapping" />
+        </EntityType>
+        <Association Name="FK__UserRoles__RoleI__3C69FB99">
+          <End Role="RoleMaster" Type="Self.RoleMaster" Multiplicity="1" />
+          <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleMaster">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserRolesMapping">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__UserI__3B75D760">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRolesMapping">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TravelingTeam_DB_Context" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="RoleMasters" EntityType="Self.RoleMaster" />
+          <EntitySet Name="UserRolesMappings" EntityType="Self.UserRolesMapping" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__UserRoles__RoleI__3C69FB99" Association="Self.FK__UserRoles__RoleI__3C69FB99">
+            <End Role="RoleMaster" EntitySet="RoleMasters" />
+            <End Role="UserRolesMapping" EntitySet="UserRolesMappings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__UserI__3B75D760" Association="Self.FK__UserRoles__UserI__3B75D760">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRolesMapping" EntitySet="UserRolesMappings" />
+          </AssociationSet>
+          <EntitySet Name="DailyTravelMonitorings" EntityType="TravelingTeam_DBModel.DailyTravelMonitoring" />
+          <EntitySet Name="Employees" EntityType="TravelingTeam_DBModel.Employee" />
+          <EntitySet Name="FileDetails" EntityType="TravelingTeam_DBModel.FileDetail" />
+          <AssociationSet Name="FK__DailyTrav__Emplo__4BAC3F29" Association="TravelingTeam_DBModel.FK__DailyTrav__Emplo__4BAC3F29">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitorings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FileDetail__DMId__4AB81AF0" Association="TravelingTeam_DBModel.FK__FileDetail__DMId__4AB81AF0">
+            <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitorings" />
+            <End Role="FileDetail" EntitySet="FileDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DailyTravelMonitoring">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="TravelDate" Type="DateTime" Precision="0" />
+          <Property Name="ScheduleRemark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VehicleType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VehicleNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StartKmReading" Type="Int32" />
+          <Property Name="EndKmReading" Type="Int32" />
+          <Property Name="TotalKmTravelled" Type="Int32" />
+          <Property Name="RatePerKm" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TotalTravelCost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="MeetingExpenses" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="StayExpenses" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FoodExpenses" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DayFinalRemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employee" Relationship="TravelingTeam_DBModel.FK__DailyTrav__Emplo__4BAC3F29" FromRole="DailyTravelMonitoring" ToRole="Employee" />
+          <NavigationProperty Name="FileDetails" Relationship="TravelingTeam_DBModel.FK__FileDetail__DMId__4AB81AF0" FromRole="DailyTravelMonitoring" ToRole="FileDetail" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="MobileNo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfJoining" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UAN_No" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ActiveFlag" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DailyTravelMonitorings" Relationship="TravelingTeam_DBModel.FK__DailyTrav__Emplo__4BAC3F29" FromRole="Employee" ToRole="DailyTravelMonitoring" />
+        </EntityType>
+        <EntityType Name="FileDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Extension" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DMId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DailyTravelMonitoring" Relationship="TravelingTeam_DBModel.FK__FileDetail__DMId__4AB81AF0" FromRole="FileDetail" ToRole="DailyTravelMonitoring" />
+        </EntityType>
+        <Association Name="FK__DailyTrav__Emplo__4BAC3F29">
+          <End Type="TravelingTeam_DBModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TravelingTeam_DBModel.DailyTravelMonitoring" Role="DailyTravelMonitoring" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="DailyTravelMonitoring">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FileDetail__DMId__4AB81AF0">
+          <End Type="TravelingTeam_DBModel.DailyTravelMonitoring" Role="DailyTravelMonitoring" Multiplicity="1" />
+          <End Type="TravelingTeam_DBModel.FileDetail" Role="FileDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DailyTravelMonitoring">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FileDetail">
+              <PropertyRef Name="DMId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TravelingTeam_DBModelStoreContainer" CdmEntityContainer="TravelingTeam_DB_Context">
+          <EntitySetMapping Name="RoleMasters">
+            <EntityTypeMapping TypeName="TravelingTeam_DBModel.RoleMaster">
+              <MappingFragment StoreEntitySet="RoleMaster">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RollName" ColumnName="RollName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRolesMappings">
+            <EntityTypeMapping TypeName="TravelingTeam_DBModel.UserRolesMapping">
+              <MappingFragment StoreEntitySet="UserRolesMapping">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TravelingTeam_DBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UniqeId" ColumnName="UniqeId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DailyTravelMonitorings">
+            <EntityTypeMapping TypeName="TravelingTeam_DBModel.DailyTravelMonitoring">
+              <MappingFragment StoreEntitySet="DailyTravelMonitoring">
+                <ScalarProperty Name="DayFinalRemarks" ColumnName="DayFinalRemarks" />
+                <ScalarProperty Name="FoodExpenses" ColumnName="FoodExpenses" />
+                <ScalarProperty Name="StayExpenses" ColumnName="StayExpenses" />
+                <ScalarProperty Name="MeetingExpenses" ColumnName="MeetingExpenses" />
+                <ScalarProperty Name="TotalTravelCost" ColumnName="TotalTravelCost" />
+                <ScalarProperty Name="RatePerKm" ColumnName="RatePerKm" />
+                <ScalarProperty Name="TotalKmTravelled" ColumnName="TotalKmTravelled" />
+                <ScalarProperty Name="EndKmReading" ColumnName="EndKmReading" />
+                <ScalarProperty Name="StartKmReading" ColumnName="StartKmReading" />
+                <ScalarProperty Name="VehicleNumber" ColumnName="VehicleNumber" />
+                <ScalarProperty Name="VehicleType" ColumnName="VehicleType" />
+                <ScalarProperty Name="ScheduleRemark" ColumnName="ScheduleRemark" />
+                <ScalarProperty Name="TravelDate" ColumnName="TravelDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="TravelingTeam_DBModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="ActiveFlag" ColumnName="ActiveFlag" />
+                <ScalarProperty Name="UAN_No" ColumnName="UAN_No" />
+                <ScalarProperty Name="DateOfJoining" ColumnName="DateOfJoining" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileDetails">
+            <EntityTypeMapping TypeName="TravelingTeam_DBModel.FileDetail">
+              <MappingFragment StoreEntitySet="FileDetail">
+                <ScalarProperty Name="DMId" ColumnName="DMId" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

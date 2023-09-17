@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="34713ccd857449fc9b9b72c394fb2723" Name="Diagram1">
+        <EntityTypeShape EntityType="TravelingTeam_DBModel.RoleMaster" Width="1.875" PointX="0.5" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TravelingTeam_DBModel.UserRolesMapping" Width="1.75" PointX="2.875" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TravelingTeam_DBModel.User" Width="1.875" PointX="0.625" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="TravelingTeam_DBModel.FK__UserRoles__RoleI__3C69FB99" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="TravelingTeam_DBModel.FK__UserRoles__UserI__3B75D760" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="TravelingTeam_DBModel.DailyTravelMonitoring" Width="1.5" PointX="7.625" PointY="1" />
+        <EntityTypeShape EntityType="TravelingTeam_DBModel.Employee" Width="1.5" PointX="5.375" PointY="1.75" />
+        <EntityTypeShape EntityType="TravelingTeam_DBModel.FileDetail" Width="1.5" PointX="9.875" PointY="2.25" />
+        <AssociationConnector Association="TravelingTeam_DBModel.FK__DailyTrav__Emplo__4BAC3F29" />
+        <AssociationConnector Association="TravelingTeam_DBModel.FK__FileDetail__DMId__4AB81AF0" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

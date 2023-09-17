@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DailyTravelMonitoringApplication", "DailyTravelMonitoringApplication\DailyTravelMonitoringApplication.csproj", "{0CC05FAC-9B76-47C1-AF84-2433D2BDF1BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CC05FAC-9B76-47C1-AF84-2433D2BDF1BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CC05FAC-9B76-47C1-AF84-2433D2BDF1BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CC05FAC-9B76-47C1-AF84-2433D2BDF1BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CC05FAC-9B76-47C1-AF84-2433D2BDF1BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB580658-0A40-4E5B-AD09-05C67FB0D00A}
+	EndGlobalSection
+EndGlobal
