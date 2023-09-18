@@ -1,6 +1,8 @@
 ﻿using DailyTravelMonitoringApplication.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -37,7 +39,6 @@ namespace DailyTravelMonitoringApplication.Controllers
         }
         public ActionResult Delete(int? id)
         {
-
             return View(_dbContext.Employees.Find(id));
         }
         [HttpPost]
@@ -54,6 +55,24 @@ namespace DailyTravelMonitoringApplication.Controllers
             }
             return View(_dbContext.Employees.Find(id));
         }
-        
+        public ActionResult Edit(int? id)
+        {
+            return View(_dbContext.Employees.Find(id));
+        }
+        [HttpPost]
+        public ActionResult Edit(Employee value)
+        {
+            if (ModelState.IsValid)
+            {            
+                _dbContext.Entry(value).State = EntityState.Modified; 
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        public ActionResult Details(int? id)
+        {
+            return View(_dbContext.Employees.Find(id));
+        }
     }
 }
