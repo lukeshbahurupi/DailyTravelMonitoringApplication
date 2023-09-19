@@ -1,9 +1,16 @@
 ﻿@{
     ViewBag.Title = "About";
-}
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
+    var name = TempData["mame"];
 
-    <p>Use this area to provide additional information.</p>
-</main>
+}
+@using (Html.BeginForm("about","Home",FormMethod.Post))
+{
+
+
+    <main aria-labelledby="title">
+        <h2 id="title">@ViewBag.Title.</h2>
+       
+        <p>Use this area to provide additional information.</p>
+    </main>
+    <a href="/home/index/">click me</a>
+}

@@ -1,0 +1,111 @@
+﻿@model IEnumerable<DailyTravelMonitoringApplication.Models.DailyTravelMonitoring>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TravelDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScheduleRemark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartKmReading)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndKmReading)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalKmTravelled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatePerKm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalTravelCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MeetingExpenses)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StayExpenses)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FoodExpenses)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayFinalRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employee.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TravelDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScheduleRemark)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartKmReading)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndKmReading)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalKmTravelled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatePerKm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalTravelCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MeetingExpenses)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StayExpenses)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FoodExpenses)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DayFinalRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

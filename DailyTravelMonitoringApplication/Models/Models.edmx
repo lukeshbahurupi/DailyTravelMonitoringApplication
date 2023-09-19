@@ -24,6 +24,12 @@
           <Property Name="StayExpenses" Type="decimal" Precision="10" Scale="2" />
           <Property Name="FoodExpenses" Type="decimal" Precision="10" Scale="2" />
           <Property Name="DayFinalRemarks" Type="varchar(max)" />
+          <Property Name="FileName" Type="nvarchar(max)" />
+          <Property Name="Extension" Type="nvarchar(max)" />
+          <Property Name="IDGuid" Type="uniqueidentifier" />
+          <Property Name="_FileName" Type="nvarchar(max)" />
+          <Property Name="_Extension" Type="nvarchar(max)" />
+          <Property Name="_IDGuid" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -38,15 +44,6 @@
           <Property Name="DateOfJoining" Type="date" Nullable="false" />
           <Property Name="UAN_No" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ActiveFlag" Type="nvarchar" MaxLength="5" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FileDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Extension" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="DMId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="RoleMaster">
           <Key>
@@ -86,18 +83,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FileDetail__DMId__4AB81AF0">
-          <End Role="DailyTravelMonitoring" Type="Self.DailyTravelMonitoring" Multiplicity="1" />
-          <End Role="FileDetail" Type="Self.FileDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DailyTravelMonitoring">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FileDetail">
-              <PropertyRef Name="DMId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__UserRoles__RoleI__3C69FB99">
           <End Role="RoleMaster" Type="Self.RoleMaster" Multiplicity="1" />
           <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
@@ -125,17 +110,12 @@
         <EntityContainer Name="TravelingTeam_DBModelStoreContainer">
           <EntitySet Name="DailyTravelMonitoring" EntityType="Self.DailyTravelMonitoring" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FileDetail" EntityType="Self.FileDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRolesMapping" EntityType="Self.UserRolesMapping" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__DailyTrav__Emplo__4BAC3F29" Association="Self.FK__DailyTrav__Emplo__4BAC3F29">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitoring" />
-          </AssociationSet>
-          <AssociationSet Name="FK__FileDetail__DMId__4AB81AF0" Association="Self.FK__FileDetail__DMId__4AB81AF0">
-            <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitoring" />
-            <End Role="FileDetail" EntitySet="FileDetail" />
           </AssociationSet>
           <AssociationSet Name="FK__UserRoles__RoleI__3C69FB99" Association="Self.FK__UserRoles__RoleI__3C69FB99">
             <End Role="RoleMaster" EntitySet="RoleMaster" />
@@ -218,14 +198,9 @@
           </AssociationSet>
           <EntitySet Name="DailyTravelMonitorings" EntityType="TravelingTeam_DBModel.DailyTravelMonitoring" />
           <EntitySet Name="Employees" EntityType="TravelingTeam_DBModel.Employee" />
-          <EntitySet Name="FileDetails" EntityType="TravelingTeam_DBModel.FileDetail" />
           <AssociationSet Name="FK__DailyTrav__Emplo__4BAC3F29" Association="TravelingTeam_DBModel.FK__DailyTrav__Emplo__4BAC3F29">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitorings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__FileDetail__DMId__4AB81AF0" Association="TravelingTeam_DBModel.FK__FileDetail__DMId__4AB81AF0">
-            <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitorings" />
-            <End Role="FileDetail" EntitySet="FileDetails" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="DailyTravelMonitoring">
@@ -247,8 +222,13 @@
           <Property Name="StayExpenses" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="FoodExpenses" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="DayFinalRemarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Extension" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDGuid" Type="Guid" />
           <NavigationProperty Name="Employee" Relationship="TravelingTeam_DBModel.FK__DailyTrav__Emplo__4BAC3F29" FromRole="DailyTravelMonitoring" ToRole="Employee" />
-          <NavigationProperty Name="FileDetails" Relationship="TravelingTeam_DBModel.FK__FileDetail__DMId__4AB81AF0" FromRole="DailyTravelMonitoring" ToRole="FileDetail" />
+          <Property Name="C_FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C_Extension" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C_IDGuid" Type="Guid" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -265,16 +245,6 @@
           <Property Name="ActiveFlag" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DailyTravelMonitorings" Relationship="TravelingTeam_DBModel.FK__DailyTrav__Emplo__4BAC3F29" FromRole="Employee" ToRole="DailyTravelMonitoring" />
         </EntityType>
-        <EntityType Name="FileDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="FileName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Extension" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DMId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DailyTravelMonitoring" Relationship="TravelingTeam_DBModel.FK__FileDetail__DMId__4AB81AF0" FromRole="FileDetail" ToRole="DailyTravelMonitoring" />
-        </EntityType>
         <Association Name="FK__DailyTrav__Emplo__4BAC3F29">
           <End Type="TravelingTeam_DBModel.Employee" Role="Employee" Multiplicity="0..1" />
           <End Type="TravelingTeam_DBModel.DailyTravelMonitoring" Role="DailyTravelMonitoring" Multiplicity="*" />
@@ -284,18 +254,6 @@
             </Principal>
             <Dependent Role="DailyTravelMonitoring">
               <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__FileDetail__DMId__4AB81AF0">
-          <End Type="TravelingTeam_DBModel.DailyTravelMonitoring" Role="DailyTravelMonitoring" Multiplicity="1" />
-          <End Type="TravelingTeam_DBModel.FileDetail" Role="FileDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DailyTravelMonitoring">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FileDetail">
-              <PropertyRef Name="DMId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -337,6 +295,12 @@
           <EntitySetMapping Name="DailyTravelMonitorings">
             <EntityTypeMapping TypeName="TravelingTeam_DBModel.DailyTravelMonitoring">
               <MappingFragment StoreEntitySet="DailyTravelMonitoring">
+                <ScalarProperty Name="C_IDGuid" ColumnName="_IDGuid" />
+                <ScalarProperty Name="C_Extension" ColumnName="_Extension" />
+                <ScalarProperty Name="C_FileName" ColumnName="_FileName" />
+                <ScalarProperty Name="IDGuid" ColumnName="IDGuid" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="DayFinalRemarks" ColumnName="DayFinalRemarks" />
                 <ScalarProperty Name="FoodExpenses" ColumnName="FoodExpenses" />
                 <ScalarProperty Name="StayExpenses" ColumnName="StayExpenses" />
@@ -367,16 +331,6 @@
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FileDetails">
-            <EntityTypeMapping TypeName="TravelingTeam_DBModel.FileDetail">
-              <MappingFragment StoreEntitySet="FileDetail">
-                <ScalarProperty Name="DMId" ColumnName="DMId" />
-                <ScalarProperty Name="Extension" ColumnName="Extension" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

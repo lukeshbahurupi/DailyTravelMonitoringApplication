@@ -30,6 +30,5 @@ namespace DailyTravelMonitoringApplication.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<DailyTravelMonitoring> DailyTravelMonitorings { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<FileDetail> FileDetails { get; set; }
     }
 }

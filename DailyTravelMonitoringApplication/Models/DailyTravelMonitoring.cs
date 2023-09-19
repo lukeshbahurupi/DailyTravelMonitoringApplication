@@ -14,12 +14,6 @@ namespace DailyTravelMonitoringApplication.Models
     
     public partial class DailyTravelMonitoring
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DailyTravelMonitoring()
-        {
-            this.FileDetails = new HashSet<FileDetail>();
-        }
-    
         public int ID { get; set; }
         public Nullable<int> EmployeeId { get; set; }
         public Nullable<System.DateTime> TravelDate { get; set; }
@@ -35,9 +29,13 @@ namespace DailyTravelMonitoringApplication.Models
         public Nullable<decimal> StayExpenses { get; set; }
         public Nullable<decimal> FoodExpenses { get; set; }
         public string DayFinalRemarks { get; set; }
+        public string FileName { get; set; }
+        public string Extension { get; set; }
+        public Nullable<System.Guid> IDGuid { get; set; }
+        public string C_FileName { get; set; }
+        public string C_Extension { get; set; }
+        public Nullable<System.Guid> C_IDGuid { get; set; }
     
         public virtual Employee Employee { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FileDetail> FileDetails { get; set; }
     }
 }

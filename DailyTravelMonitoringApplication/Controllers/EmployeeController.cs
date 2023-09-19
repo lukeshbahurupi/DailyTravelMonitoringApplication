@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace DailyTravelMonitoringApplication.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly TravelingTeam_DB_Context _dbContext = new TravelingTeam_DB_Context();
@@ -26,16 +28,40 @@ namespace DailyTravelMonitoringApplication.Controllers
         public ActionResult Create(Employee value)
         {
             List<DailyTravelMonitoring> list = new List<DailyTravelMonitoring>();
-            if (ModelState.IsValid)
+            //List<FileDetail> fileDetails = new List<FileDetail>();
+
+            try
             {
-                DailyTravelMonitoring obj = new DailyTravelMonitoring();
-                list.Add(obj);
-                value.DailyTravelMonitorings = list;
-                _dbContext.Employees.Add(value);
-                _dbContext.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    DailyTravelMonitoring obj = new DailyTravelMonitoring();
+                    //FileDetail fileDetail = new FileDetail();
+                    list.Add(obj);
+                    //fileDetails.Add(fileDetail);
+                    value.DailyTravelMonitorings = list;
+
+
+
+                    _dbContext.Employees.Add(value);
+                    _dbContext.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View();
             }
-            return View();
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+            }
+            return RedirectToAction("Index");
         }
         public ActionResult Delete(int? id)
         {
