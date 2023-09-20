@@ -1,0 +1,152 @@
+﻿@model DailyTravelMonitoringApplication.Models.DailyTravelMonitoring
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DailyTravelMonitoring</h4>
+    <h5>Name : @Html.DisplayFor(model => model.Employee.Name)</h5>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TravelDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TravelDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScheduleRemark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScheduleRemark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VehicleType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VehicleType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VehicleNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VehicleNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartKmReading)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartKmReading)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndKmReading)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndKmReading)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalKmTravelled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalKmTravelled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatePerKm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatePerKm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalTravelCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalTravelCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MeetingExpenses)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MeetingExpenses)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StayExpenses)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StayExpenses)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FoodExpenses)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FoodExpenses)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DayFinalRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DayFinalRemarks)
+        </dd>
+        <div>
+            <ul class="list-group">
+                @if (Model.IDGuid != null)
+                {
+                    <h6><b>Start Reading Photo :</b></h6>
+                    <li class="list-group-item">
+                        <h6>@Model.FileName</h6>
+                        @*<a class="title" href="/Monitoring/Download/?p=@(Model.IDGuid + Model.Extension)&d=@Model.FileName">@Model.FileName</a>*@
+                        @Html.ActionLink("Download", "Download", "Monitoring", new { p = Model.IDGuid + Model.Extension, d = Model.FileName }, new { @class = "title control-label col-md-2" })
+
+                        @Html.ActionLink("Delete", "DeleteFile", new { id = Model.ID, guid = Model.IDGuid }, new { @class = "control-label col-md-2 text-danger" })
+
+                    </li>
+                }
+                @if (Model.C_IDGuid != null)
+                {
+                    <h6><b>End Reading Photo : </b></h6>
+                    <li class="list-group-item">
+                        <h6>@Model.C_FileName</h6>
+                        @*<a class="title" href="/Monitoring/Download/?p=@(Model.C_IDGuid + Model.C_Extension)&d=@Model.C_FileName">Download</a>*@
+                        @Html.ActionLink("Download", "Download", "Monitoring", new { p = Model.C_IDGuid + Model.Extension, d = Model.C_FileName }, new { @class = "title control-label col-md-2s" })
+
+
+                        @Html.ActionLink("Delete", "DeleteFile", new { id = Model.ID, guid = Model.C_IDGuid }, new { @class = "control-label col-md-2 text-danger" })
+
+                    </li>
+                }
+            </ul>
+        </div>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID })     
+</p>

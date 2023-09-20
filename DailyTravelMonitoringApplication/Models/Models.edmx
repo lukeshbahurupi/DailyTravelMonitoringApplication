@@ -49,14 +49,14 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="RollName" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserRolesMapping">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="RoleID" Type="int" Nullable="false" />
         </EntityType>
@@ -68,7 +68,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MobileNo" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="UniqeId" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="UniqeId" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK__DailyTrav__Emplo__4BAC3F29">
@@ -83,7 +83,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserRoles__RoleI__3C69FB99">
+        <Association Name="FK__UserRoles__RoleI__60A75C0F">
           <End Role="RoleMaster" Type="Self.RoleMaster" Multiplicity="1" />
           <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
           <ReferentialConstraint>
@@ -95,7 +95,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserRoles__UserI__3B75D760">
+        <Association Name="FK__UserRoles__UserI__5CD6CB2B">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="UserRolesMapping" Type="Self.UserRolesMapping" Multiplicity="*" />
           <ReferentialConstraint>
@@ -117,11 +117,11 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="DailyTravelMonitoring" EntitySet="DailyTravelMonitoring" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserRoles__RoleI__3C69FB99" Association="Self.FK__UserRoles__RoleI__3C69FB99">
+          <AssociationSet Name="FK__UserRoles__RoleI__60A75C0F" Association="Self.FK__UserRoles__RoleI__60A75C0F">
             <End Role="RoleMaster" EntitySet="RoleMaster" />
             <End Role="UserRolesMapping" EntitySet="UserRolesMapping" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserRoles__UserI__3B75D760" Association="Self.FK__UserRoles__UserI__3B75D760">
+          <AssociationSet Name="FK__UserRoles__UserI__5CD6CB2B" Association="Self.FK__UserRoles__UserI__5CD6CB2B">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserRolesMapping" EntitySet="UserRolesMapping" />
           </AssociationSet>
@@ -156,7 +156,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UniqeId" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UniqeId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="UserRolesMappings" Relationship="Self.FK__UserRoles__UserI__3B75D760" FromRole="Users" ToRole="UserRolesMapping" />
         </EntityType>

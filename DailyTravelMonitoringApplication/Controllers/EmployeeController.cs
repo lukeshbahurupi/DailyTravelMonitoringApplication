@@ -10,20 +10,23 @@ using System.Web.Mvc;
 
 namespace DailyTravelMonitoringApplication.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class EmployeeController : Controller
     {
         private readonly TravelingTeam_DB_Context _dbContext = new TravelingTeam_DB_Context();
-        
+
         // GET: Employee
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {            
             return View(_dbContext.Employees.ToList());
         }
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Create(Employee value)
         {
@@ -63,12 +66,14 @@ namespace DailyTravelMonitoringApplication.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             return View(_dbContext.Employees.Find(id));
         }
         [HttpPost]
         [ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public ActionResult GetDelete(int? id)
         {
             if (id != null)
@@ -86,6 +91,7 @@ namespace DailyTravelMonitoringApplication.Controllers
             return View(_dbContext.Employees.Find(id));
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(Employee value)
         {
             if (ModelState.IsValid)
@@ -96,6 +102,7 @@ namespace DailyTravelMonitoringApplication.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             return View(_dbContext.Employees.Find(id));

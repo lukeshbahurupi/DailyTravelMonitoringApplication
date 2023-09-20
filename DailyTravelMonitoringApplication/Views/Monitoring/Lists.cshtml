@@ -1,0 +1,15 @@
+﻿@model IEnumerable<DailyTravelMonitoringApplication.Models.DailyTravelMonitoring>
+@{
+    ViewBag.Title = "Lists";
+}
+
+<h2>Lists</h2>
+<ul>
+    @foreach (var el in Model)
+    {
+        <li>
+            <b>Travel Date : </b>@el.TravelDate   |   
+            @Html.ActionLink("Details", "Details", new { id = el.ID }, new { @class = "btn btn-primary m-3" })
+        </li>
+    }
+</ul> 

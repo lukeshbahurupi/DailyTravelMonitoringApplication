@@ -169,6 +169,7 @@
     <Compile Include="Models\UserRolesMapping.cs">
       <DependentUpon>Models.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UsersRoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -246,10 +247,17 @@
     <Content Include="Views\Employee\Details.cshtml" />
     <Content Include="Views\Monitoring\Index.cshtml" />
     <Content Include="Views\Monitoring\Edit.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Signup.cshtml" />
+    <Content Include="Views\Account\Details.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ADLogin.cshtml" />
+    <Content Include="Views\Monitoring\Details.cshtml" />
+    <Content Include="Views\Monitoring\Lists.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
-    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

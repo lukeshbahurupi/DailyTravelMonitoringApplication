@@ -7,34 +7,94 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace DailyTravelMonitoringApplication.Controllers
 {
+    //[Authorize]
     public class MonitoringController : Controller
     {
         private readonly TravelingTeam_DB_Context _dbContext = new TravelingTeam_DB_Context();
         // GET: Monitoring
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(_dbContext.DailyTravelMonitorings.ToList());
         }
+        [Authorize(Roles = "User")]
+        public ActionResult Lists(int? id)
+        {            
+            List<DailyTravelMonitoring> list = _dbContext.DailyTravelMonitorings.Where(el => el.EmployeeId == id).ToList();
+            Employee ele = _dbContext.Employees.FirstOrDefault(el => el.MobileNo == User.Identity.Name);
+            if(ele.EmployeeId == id)
+            {
+                return View(list);
+            }
+            return RedirectToAction("Details");
+        }
+
+        [Authorize(Roles ="Admin,User")]
+        public ActionResult Details(int? id)
+        {
+            try
+            {
+                 if (id != null && id != 0)
+                {
+                    DailyTravelMonitoring obj = _dbContext.DailyTravelMonitorings.Find(id);
+                    User user = _dbContext.Users.FirstOrDefault(el => el.MobileNo == User.Identity.Name);
+                    if (user.Name == obj.Employee.Name)
+                    {
+                        return View(obj);
+                    }
+                }
+            else
+            {
+                if (id == null || id == 0)
+                {
+                    Employee emp = _dbContext.Employees.FirstOrDefault(el => el.MobileNo == User.Identity.Name);
+                    //return View(_dbContext.DailyTravelMonitorings.FirstOrDefault(el => el.EmployeeId == emp.EmployeeId));
+                    return RedirectToRoute(new { controller = "Monitoring", action = "Lists", id = emp.EmployeeId });
+                }
+
+            }
+            }
+            catch 
+            {
+                return View("Error");
+            }           
+            
+            ModelState.AddModelError("", "Not valid User");
+            return RedirectToAction("Login", "Account");
+        }
+        [Authorize(Roles = "User")]
         public ActionResult Edit(int? id) 
         {
-            if (id != null)
+            try
             {
-                 DailyTravelMonitoring value = _dbContext.DailyTravelMonitorings.Find(id);
-                if(value.TravelDate==null)value.TravelDate=DateTime.Now;
-                return View(value);
+                
+            
+                if (id != null)
+                {
+                     DailyTravelMonitoring value = _dbContext.DailyTravelMonitorings.Find(id);
+                    if(value.TravelDate==null)value.TravelDate=DateTime.Today;
+                    return View(value);
+                }
             }
-           
+            catch 
+            {
+                return View("Error");
+            }
             return RedirectToAction("Index");
             
         }
+        [Authorize(Roles = "User")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(DailyTravelMonitoring value) 
+        [ValidateAntiForgeryToken]        
+        public ActionResult Edit(DailyTravelMonitoring value)
         {
+           
             DailyTravelMonitoring list = _dbContext.DailyTravelMonitorings.Find(value.ID);
+            
             value.EmployeeId = list.EmployeeId;
             value.TravelDate = list.TravelDate;
             if(list.C_IDGuid != null || list.IDGuid != null)
@@ -49,65 +109,74 @@ namespace DailyTravelMonitoringApplication.Controllers
             }
             if (ModelState.IsValid)
             {
+                try
+                {               
                 
-                if (Request.Files.Count > 0)
-                {
-                    var file = Request.Files[0];
-                    //var file2 = Request.Files[1];
-                    if(file.ContentLength == 0 && list.IDGuid ==null && list.C_IDGuid == null)
+                    if (Request.Files.Count > 0)
                     {
-                        ModelState.AddModelError("file", "Upload Reading Photo!");
-                            return View(list);
-                    }
-                    if (list.IDGuid == null || list.FileName == null || list.Extension == null )  
-                    {
-                        if(file != null && file.ContentLength>0 )
+                        var file = Request.Files[0];
+                        //var file2 = Request.Files[1];
+                        if(file.ContentLength == 0 && list.IDGuid ==null && list.C_IDGuid == null)
                         {
-                            value.FileName = Path.GetFileName(file.FileName);
-                            value.Extension = Path.GetExtension(value.FileName);
-                            value.IDGuid = Guid.NewGuid();
-                            file.SaveAs(Path.Combine(Server.MapPath("~/App_Data/Upload"), value.IDGuid + value.Extension));
+                            ModelState.AddModelError("file", "Upload Reading Photo!");
+                                return View(list);
                         }
+                        if (list.IDGuid == null || list.FileName == null || list.Extension == null )  
+                        {
+                            if(file != null && file.ContentLength>0 )
+                            {
+                                value.FileName = Path.GetFileName(file.FileName);
+                                value.Extension = Path.GetExtension(value.FileName);
+                                value.IDGuid = Guid.NewGuid();
+                                file.SaveAs(Path.Combine(Server.MapPath("~/App_Data/Upload"), value.IDGuid + value.Extension));
+                            }
                         
-                    }else if (list.C_IDGuid == null || list.C_FileName == null || list.C_Extension == null)
-                    {                        
-                        if (file != null && file.ContentLength > 0)
-                        {
-                            value.C_FileName = Path.GetFileName(file.FileName);
-                            value.C_Extension = Path.GetExtension(value.C_FileName);
-                            value.C_IDGuid = Guid.NewGuid();
-                            file.SaveAs(Path.Combine(Server.MapPath("~/App_Data/Upload"),value.C_IDGuid + value.C_Extension));
+                        }else if (list.C_IDGuid == null || list.C_FileName == null || list.C_Extension == null)
+                        {                        
+                            if (file != null && file.ContentLength > 0)
+                            {
+                                value.C_FileName = Path.GetFileName(file.FileName);
+                                value.C_Extension = Path.GetExtension(value.C_FileName);
+                                value.C_IDGuid = Guid.NewGuid();
+                                file.SaveAs(Path.Combine(Server.MapPath("~/App_Data/Upload"),value.C_IDGuid + value.C_Extension));
+                            }
                         }
+
                     }
 
-                }
-
-                /**************************************************************************************************************/
-
-                if (list.IDGuid == null && value.IDGuid == null)
-                {
-                    ModelState.AddModelError("file", "Upload  file!");
-                    return View(list);
-                }
-                var local = _dbContext.Set<DailyTravelMonitoring>()
-                         .Local
-                         .FirstOrDefault(f => f.ID == value.ID);
-                if (local != null)
-                {
-                    _dbContext.Entry(local).State = EntityState.Detached;
-                }
+                    /**************************************************************************************************************/
+                    if (list.TravelDate == null) value.TravelDate = DateTime.Now;
+                    if (list.IDGuid == null && value.IDGuid == null)
+                    {
+                        ModelState.AddModelError("file", "Upload  file!");
+                        return View(list);
+                    }
+                    var local = _dbContext.Set<DailyTravelMonitoring>()
+                             .Local
+                             .FirstOrDefault(f => f.ID == value.ID);
+                    if (local != null)
+                    {
+                        _dbContext.Entry(local).State = EntityState.Detached;
+                    }
                 
-                _dbContext.Entry(value).State = EntityState.Modified;
-                _dbContext.SaveChanges();
-                return RedirectToAction("Index");
+                    _dbContext.Entry(value).State = EntityState.Modified;
+                    _dbContext.SaveChanges();
+                    return RedirectToAction("Details");
+                }
+                catch
+                {
+                    return View("Error");
+                }
             }
             return View(list);
         }
+        [Authorize(Roles = "Admin,User")]
         public FileResult Download(String p, String d)
         {
             return File(Path.Combine(Server.MapPath("~/App_Data/Upload/"), p), System.Net.Mime.MediaTypeNames.Application.Octet, d);
         }
        
+        [Authorize(Roles = "Admin,User")]
         public ActionResult DeleteFile(int id,Guid guid)
         {
             
@@ -139,7 +208,7 @@ namespace DailyTravelMonitoringApplication.Controllers
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details");
         }
     }
 }
